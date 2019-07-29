@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.brunomello.apptest.domain.Categoria;
 import com.brunomello.apptest.domain.Cidade;
+import com.brunomello.apptest.domain.Cliente;
+import com.brunomello.apptest.domain.Endereco;
 import com.brunomello.apptest.domain.Estado;
 import com.brunomello.apptest.domain.Produto;
+import com.brunomello.apptest.domain.enums.TipoCliente;
 import com.brunomello.apptest.repositories.CategoriaRepository;
 import com.brunomello.apptest.repositories.CidadeRepository;
+import com.brunomello.apptest.repositories.ClienteRepository;
+import com.brunomello.apptest.repositories.EnderecoRepository;
 import com.brunomello.apptest.repositories.EstadoRepository;
 import com.brunomello.apptest.repositories.ProdutoRepository;
 
@@ -32,6 +37,11 @@ public class ApptestApplication implements CommandLineRunner {
 	@Autowired
 	private EstadoRepository estadoRepository;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	
 	
@@ -80,6 +90,19 @@ public class ApptestApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "09174689756", TipoCliente.PESSOAFISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("128976567","876490287"));
+		
+		Endereco e1 = new Endereco(null, "Rua Floresta", "89", "Apto404", "Jardim", "82387876", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Pedro Paulo", "467", "Sobrado", "Centro", "35678665", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
 		
 		
